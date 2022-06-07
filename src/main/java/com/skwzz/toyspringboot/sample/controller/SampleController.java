@@ -1,4 +1,4 @@
-package com.skwzz.toyspringboot.sample;
+package com.skwzz.toyspringboot.sample.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
