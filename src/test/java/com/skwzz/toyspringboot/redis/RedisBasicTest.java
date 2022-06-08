@@ -1,11 +1,14 @@
 package com.skwzz.toyspringboot.redis;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.event.annotation.AfterTestClass;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -21,21 +24,6 @@ public class RedisBasicTest {
 
     @Autowired
     RedisTemplate<String, String> redisTemplate;
-
-    @Test
-    void 모든데이터_조회(){
-        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        Set<String> redisKeys = redisTemplate.keys("*");
-        List<String> keysList = new ArrayList<>();
-        Iterator<String> it = redisKeys.iterator();
-        while (it.hasNext()) {
-            String data = it.next();
-            keysList.add(data);
-        }
-        for(String s:keysList){
-            System.out.println(s);
-        }
-    }
 
     @Test
     void 등록후_조회(){
@@ -75,5 +63,27 @@ public class RedisBasicTest {
 
         String value = valueOperations.get(key);
         assertThat(value).isNull();
+    }
+
+    @Test
+    void 모든데이터_조회(){
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        Set<String> redisKeys = redisTemplate.keys("*");
+        List<String> keysList = new ArrayList<>();
+        Iterator<String> it = redisKeys.iterator();
+        while (it.hasNext()) {
+            String data = it.next();
+            keysList.add(data);
+        }
+        for(String s:keysList){
+            System.out.println(s);
+        }
+    }
+
+    @Test
+    void 모든데이터_삭제(){
+        redisTemplate.delete(redisTemplate.keys("*"));
+        Set<String> redisKeys = redisTemplate.keys("*");
+        assertThat(redisKeys).isEmpty();
     }
 }
