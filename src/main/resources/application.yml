@@ -4,6 +4,9 @@ spring:
   redis:
     host: localhost
     port: 6379
+  h2:
+    console:
+      enabled: true
 cloud:
   aws:
     s3:
@@ -14,3 +17,4 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
